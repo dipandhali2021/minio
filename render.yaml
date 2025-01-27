@@ -10,6 +10,7 @@ services:
   # web service
   # dockerCommand: minio server /data --address $HOST:$PORT
   autoDeploy: false
+  plan: free
   disk:
     name: data
     mountPath: /data
@@ -36,6 +37,7 @@ services:
   dockerContext: /
   dockerfilePath: ./Dockerfile
   autoDeploy: false
+  plan: free
   envVars:
   - key: PORT
     value: 10000
