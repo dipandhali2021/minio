@@ -1,42 +1,22 @@
 services:
   - type: web
-    name: minio-server
+    name: minio
     healthCheckPath: /minio/health/live
     runtime: image
     image:
       url: docker.io/minio/minio:latest
-    dockerCommand: minio server /data --address :$PORT --console-address :$CONSOLE_PORT
+    dockerCommand: server /data --address :$PORT --console-address :$CONSOLE_PORT
     autoDeploy: false
     plan: free
+    disk:
+      name: data
+      mountPath: /data
     envVars:
       - key: MINIO_ROOT_USER
-        generateValue: true
+        value: mino
       - key: MINIO_ROOT_PASSWORD
-        generateValue: true
+        value: minio123
       - key: PORT
         value: 9000
       - key: CONSOLE_PORT
-        value: 9090
-
-  - type: web
-    name: minio-console
-    runtime: image
-    image:
-      url: quay.io/minio/console:latest
-    autoDeploy: false
-    plan: free
-    envVars:
-      - key: MINIO_SERVER_URL
-        fromService:
-          name: minio-server
-          type: web
-          envVarKey: RENDER_EXTERNAL_URL
-      - key: CONSOLE_PORT
-        value: 9090
-      - key: PORT
-        value: 9090
-      - key: MINIO_BROWSER_REDIRECT_URL
-        fromService:
-          name: minio-console
-          type: web
-          envVarKey: RENDER_EXTERNAL_URL
+        value: 9001
