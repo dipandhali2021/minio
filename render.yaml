@@ -5,7 +5,7 @@ services:
     runtime: image
     image:
       url: docker.io/minio/minio:latest
-    dockerCommand: server /tmp/data --address :$PORT --console-address :$CONSOLE_PORT
+    dockerCommand: minio server /tmp/data --address :$PORT --console-address :$CONSOLE_PORT
     autoDeploy: false
     plan: free
     envVars:
