@@ -5,9 +5,14 @@ services:
     runtime: image
     image:
       url: docker.io/minio/minio:latest
-    dockerCommand: minio server /tmp/data --address :$PORT --console-address :$CONSOLE_PORT
+    dockerCommand: server /tmp/data --address :$PORT --console-address :$CONSOLE_PORT
     autoDeploy: false
     plan: free
+    ports:
+      - port: 9000
+        protocol: tcp
+      - port: 9001
+        protocol: tcp
     envVars:
       - key: MINIO_ROOT_USER
         value: mino
