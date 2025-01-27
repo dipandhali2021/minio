@@ -1,24 +1,42 @@
 services:
   - type: web
-    name: minio
+    name: minio-server
     healthCheckPath: /minio/health/live
     runtime: image
-    image:
+    image: 
       url: docker.io/minio/minio:latest
-    dockerCommand: server /tmp/data --address :$PORT --console-address :$CONSOLE_PORT
+    dockerCommand: minio server /tmp/data --address $HOST:$PORT --console-address $HOST:$CONSOLE_PORT
     autoDeploy: false
     plan: free
-    ports:
-      - port: 9000
-        protocol: tcp
-      - port: 9001
-        protocol: tcp
     envVars:
       - key: MINIO_ROOT_USER
-        value: mino
+        generateValue: true
       - key: MINIO_ROOT_PASSWORD
-        value: minio123
+        generateValue: true
+      - key: HOST
+        value: "0.0.0.0"
       - key: PORT
         value: 9000
       - key: CONSOLE_PORT
-        value: 9001
+        value: 9090
+
+  - type: web
+    name: minio-console
+    runtime: docker
+    dockerContext: /
+    dockerfilePath: ./Dockerfile
+    autoDeploy: false
+    plan: free
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: MINIO_HOST
+        fromService:
+          name: minio-server
+          type: web
+          property: host
+      - key: MINIO_CONSOLE_PORT
+        fromService:
+          name: minio-server
+          type: web
+          envVarKey: CONSOLE_PORT
