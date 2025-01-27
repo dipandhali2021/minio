@@ -1,5 +1,5 @@
 upstream minio_console {
-    server ${MINIO_HOST}:${MINIO_CONSOLE_PORT};
+    server ${MINIO_HOST}.onrender.com:${MINIO_CONSOLE_PORT};
 }
 
 server {
@@ -30,6 +30,6 @@ server {
         proxy_set_header Connection "upgrade";
         
         chunked_transfer_encoding off;
-        proxy_pass http://${MINIO_HOST}:${MINIO_CONSOLE_PORT};
+        proxy_pass http://${MINIO_HOST}.onrender.com:${MINIO_CONSOLE_PORT};
     }
 }
