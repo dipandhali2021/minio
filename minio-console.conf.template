@@ -1,5 +1,5 @@
 upstream minio_console {
-	server ${MINIO_HOST};
+	server https://minio-server-29xl.onrender.com;
 }
 
 server {
